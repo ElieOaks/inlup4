@@ -1,12 +1,11 @@
 public class Multiplication extends Binary{
 
     //Attributes
-    String sign = "*";
     int prio = 2;
 
     //Constructor
     public Multiplication(Sexpr left, Sexpr right) {
-        super(left, right);
+        super(left, right, " * ");
         
     }
 

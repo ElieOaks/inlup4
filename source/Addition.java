@@ -1,16 +1,19 @@
 public class Addition extends Binary{
 
     //Attributes
-    String sign = "+";
     int prio = 1;
 
     //Constructor
     public Addition(Sexpr left, Sexpr right) {
-        super(left, right);
+        super(left, right, " + ");
         
     }
 
     //Methods
+    /**
+     * Check if addition is a constant.
+     * Always returns false.
+     */
     public boolean isConstant() {
         return false;
     }
@@ -20,7 +23,7 @@ public class Addition extends Binary{
     }
 
     public String toString() {
-        return this.getLeft().toString() + "+" + this.getRight().toString();
+        return  "(" + this.getLeft().toString() +" + "+ this.getRight().toString() + ")";
     }
     
 }

@@ -1,12 +1,11 @@
 public class Division extends Binary{
 
     //Attributes
-    String sign = "/";
     int prio = 2;
 
     //Constructor
     public Division(Sexpr left, Sexpr right) {
-        super(left, right);
+        super(left, right, "/");
         
     }
 
@@ -17,6 +16,10 @@ public class Division extends Binary{
 
     public int priority() {
         return this.prio;
+    }
+
+    public String toString() {
+        return "(" + this.getLeft().toString() + " / " + this.getRight().toString() + ")";
     }
     
 }
