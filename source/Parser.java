@@ -17,6 +17,9 @@ class Parser{
         st.eolIsSignificant(true);
     }
 
+    /**
+     * @return a Sexpr expression. If there is a '+'/'-', it returns a Addition/Subtraction Sexpr. 
+     */
     public Sexpr expression() throws IOException{
         Sexpr expression = term();
         st.nextToken();
@@ -34,6 +37,9 @@ class Parser{
         return expression;
     }
 
+    /**
+     * @return a Sexpr expression. If there is a '*', it returns a Multiplicaiton Sexpr. 
+     */
     private Sexpr term() throws IOException{
         Sexpr expression = factor();
         while (st.nextToken() == '*'){
@@ -44,6 +50,11 @@ class Parser{
         return expression;
     }
 
+    /**
+     * Checks if the following character is the beginning of a number or an expression between paranthesees. 
+     * @return a Sexpr expression. 
+     * throws exception if paranthesees are not matching. 
+     */
     private Sexpr factor() throws IOException{
         Sexpr result;
         if(st.nextToken() != '('){
@@ -58,6 +69,11 @@ class Parser{
         return result;
     }
 
+    /**
+     * 
+     * @return a Sexp expression of a Constant or returns a call of variableorUnary()
+     * Throws exception if it is neither a word of a number.
+     */
     private Sexpr number() throws IOException{
         
         if(st.nextToken() == st.TT_WORD) {
@@ -73,6 +89,27 @@ class Parser{
        
     }
 
+    /**
+     * Checks if there are matching paranthesees
+     * Throws exception if parantheses do not match. 
+     * @return the expression between the matching paranthesees.
+     */
+    private Sexpr checkParanthesees() throws IOException{
+        if(st.nextToken() != '('){
+            throw new SyntaxErrorException("expected '('");
+        }
+        Sexpr argument = expression();
+        if(st.nextToken() != ')'){
+            throw new SyntaxErrorException("expected ')'");
+        }
+        return argument;
+    }
+
+    /**
+     * Checks if the a string is variable, or a unary expression
+     * Throws exception when: length > 1 && not a Unary expression.
+     * @return the variableor Unary expression.
+     */
     private Sexpr variableOrUnary() throws IOException{
         if(st.nextToken() != st.TT_WORD && st.sval.length() != 3 && st.sval.length() != 1) { 
             throw new SyntaxErrorException("Expected a variable or unirary expression");
@@ -80,40 +117,16 @@ class Parser{
         else if(st.sval.length() == 3) {
             switch(st.sval) {
             case "cos":
-                if(st.nextToken() != '('){
-                    throw new SyntaxErrorException("expected '('");
-                }
-                Sexpr cosArgument = expression();
-                if(st.nextToken() != ')'){
-                    throw new SyntaxErrorException("expected ')'");
-                }
+                Sexpr cosArgument = checkParanthesees();
                 return new Cos(cosArgument);
             case "sin":
-                if(st.nextToken() != '('){
-                    throw new SyntaxErrorException("expected '('");
-                }
-                Sexpr sinArgument = expression();
-                if(st.nextToken() != ')'){
-                    throw new SyntaxErrorException("expected ')'");
-                }
+                Sexpr sinArgument = checkParanthesees();
                 return new Sin(sinArgument);
             case "exp":
-                if(st.nextToken() != '('){
-                    throw new SyntaxErrorException("expected '('");
-                }
-                Sexpr expArgument = expression();
-                if(st.nextToken() != ')'){
-                    throw new SyntaxErrorException("expected ')'");
-                }
+                Sexpr expArgument = checkParanthesees();
                 return new Exp(expArgument);
             case "log":
-                if(st.nextToken() != '('){
-                    throw new SyntaxErrorException("expected '('");
-                }
-                Sexpr logArgument = expression();
-                if(st.nextToken() != ')'){
-                    throw new SyntaxErrorException("expected ')'");
-                }
+                Sexpr logArgument = checkParanthesees();
                 return new Log(logArgument);
             default:
                 throw new SyntaxErrorException("Unknown Expression");
@@ -121,7 +134,10 @@ class Parser{
                 
         }
         else
-            return new Variable(st.sval);
+            if (st.sval == "-") {
+                return new Negation(expression());
+            }
+        return new Variable(st.sval);
     }
 }
 
