@@ -14,4 +14,5 @@ public class Constant extends Atom {
     public boolean isConstant() {
         return true;
     }
+
 }

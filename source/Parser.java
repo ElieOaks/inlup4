@@ -70,6 +70,7 @@ class Parser{
             throw new SyntaxErrorException("Expected number");
         }
         return new Constant(st.nval);
+       
     }
 
     private Sexpr variableOrUnary() throws IOException{
@@ -79,16 +80,41 @@ class Parser{
         else if(st.sval.length() == 3) {
             switch(st.sval) {
             case "cos":
-                return new Cos(expression());
+                if(st.nextToken() != '('){
+                    throw new SyntaxErrorException("expected '('");
+                }
+                Sexpr cosArgument = expression();
+                if(st.nextToken() != ')'){
+                    throw new SyntaxErrorException("expected ')'");
+                }
+                return new Cos(cosArgument);
             case "sin":
-                expression();
-                return new Sin(expression());
+                if(st.nextToken() != '('){
+                    throw new SyntaxErrorException("expected '('");
+                }
+                Sexpr sinArgument = expression();
+                if(st.nextToken() != ')'){
+                    throw new SyntaxErrorException("expected ')'");
+                }
+                return new Sin(sinArgument);
             case "exp":
-                expression();
-                return new Exp(expression());
+                if(st.nextToken() != '('){
+                    throw new SyntaxErrorException("expected '('");
+                }
+                Sexpr expArgument = expression();
+                if(st.nextToken() != ')'){
+                    throw new SyntaxErrorException("expected ')'");
+                }
+                return new Exp(expArgument);
             case "log":
-                expression();
-                return new Log(expression());
+                if(st.nextToken() != '('){
+                    throw new SyntaxErrorException("expected '('");
+                }
+                Sexpr logArgument = expression();
+                if(st.nextToken() != ')'){
+                    throw new SyntaxErrorException("expected ')'");
+                }
+                return new Log(logArgument);
             default:
                 throw new SyntaxErrorException("Unknown Expression");
             }
