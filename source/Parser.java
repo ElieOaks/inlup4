@@ -1,3 +1,4 @@
+
 import java.io.StreamTokenizer;
 import java.io.IOException;
 
@@ -16,7 +17,7 @@ class Parser{
         st.eolIsSignificant(true);
     }
 
-    public double expression() throws IOException {
+    public double expression() throws IOException{
         double sum = term();
         st.nextToken();
         while (st.ttype == '+' || st.ttype == '-'){
@@ -40,83 +41,67 @@ class Parser{
         return prod;
     }
 
-    /**
-     *
-     */
-    private double factor() throws IOException {
-        double result = unaryFactor();
+    private double factor() throws IOException{
+        double result;
         if(st.nextToken() != '('){
             st.pushBack();
             result = number();
-        } else {
+        }else{
             result = expression();
-            if (st.nextToken() != ')') {
+            if(st.nextToken() != ')'){
                 throw new SyntaxErrorException("expected ')'");
             }
         }
         return result;
     }
 
-    /**
-     * Checks if proper Unirary expression
-     * @return the read Unirary Expression or throws exception.        
-     */
-    private double unaryFactor() throws IOException {
-        double unrExpr;
-        int nTkn = st.nextToken();
+    private double number() throws IOException{
+        
+        if(st.nextToken() == st.TT_WORD) {
+            st.pushBack();
+            variable();
+        }
+        st.pushBack();
 
-        switch(nTkn)
-		{
-                case "sin":
-                {	
-                    //TODO: Funktion for sin token, unrExpr = nTkn?
-                    break;
-                }
-                case "cos":
-                {	
-                    //TODO: Funktion for cos token
-                    break;
-                }
-                case "log":
-                {
-                    //TODO: Funktion for log token
-                    break;
-                }
-                default: throw new SyntaxErrorException("Not a unary function");
-				
-                //alt break;
-		}
-        return unrExpr;
+        if(st.nextToken() != st.TT_NUMBER){
+            throw new SyntaxErrorException("Expected number");
+        }
+        return st.nval; //TODO add to tree
     }
 
-    /**
-     * @return a string value, or a numeric value depending on the inputs type.
-     * Throws exception if not a numeric value or string value.
-     */
-    private double number() throws IOException{  //add posibility for variables
-        if(st.nextToken() == st.TT_NUMBER)
-            {
-                return st.nval;
-            }
-        else if(st.nextToken() == st.TT_WORD)
-            {
+    private String variable() throws IOException{
+        if(st.nextToken() != st.TT_WORD && st.sval.length() != 3 && st.sval.length() != 1) { 
+            throw new SyntaxErrorException("Expected a variable or unirary expression");
+        }
+        else if(st.sval.length() == 3) {
+            switch(st.sval) {
+            case "cos":
+                expression();
                 return st.sval;
+            case "sin":
+                expression();
+                return st.sval;
+            case "exp":
+                expression();
+                return st.sval;
+            case "log":
+                expression();
+                return st.sval;
+            default:
+                throw new SyntaxErrorException("Expected variable to unirary expression");
             }
+                
+        }
         else
-            {
-                throw new SyntaxErrorException("Expected number or variable");
-            }
-    
-
-        throw new SyntaxErrorException("Expected number");
+            return st.sval;
     }
+}
 
-    public class SyntaxErrorException extends RuntimeException{
-        public SyntaxErrorException(){
-            super();
-        }
-        public SyntaxErrorException(String msg){
-            super(msg);
-        }
+class SyntaxErrorException extends RuntimeException{
+    public SyntaxErrorException(){
+        super();
+    }
+    public SyntaxErrorException(String msg){
+        super(msg);
     }
 }
