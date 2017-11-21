@@ -1,41 +1,51 @@
+
 import java.io.StreamTokenizer;
 import java.io.IOException;
 
 class Parser{
     StreamTokenizer st;
 
+    /**
+     * Constructor
+     * Input stream is from prompter
+     * '-' is read as an ordinary char.
+     * EOL is a token
+     */
     public Parser(){
         st = new StreamTokenizer(System.in);
         st.ordinaryChar('-');
         st.eolIsSignificant(true);
     }
 
-    public double expression() throws IOException{
-        double sum = term();
+    public Sexpr expression() throws IOException{
+        Sexpr expression = term();
         st.nextToken();
-        while (st.ttype == '+' || st.ttype == '-'){
+        while (st.ttype == '+' || st.ttype == '-') {
             if(st.ttype == '+'){
-                sum += term();
+                Sexpr termRight = term();
+                expression = new Addition(expression, termRight);
             }else{
-                sum -= term();
+                Sexpr termRight = term();
+                expression = new Subtraction(expression, termRight);
             }
             st.nextToken();
         }
         st.pushBack();
-        return sum;
+        return expression;
     }
 
-    private double term() throws IOException{
-        double prod = factor();
+    private Sexpr term() throws IOException{
+        Sexpr expression = factor();
         while (st.nextToken() == '*'){
-            prod *= factor();
+            Sexpr factorRight = term();
+            expression = new Multiplication(expression, factorRight);
         }
         st.pushBack();
-        return prod;
+        return expression;
     }
 
-    private double factor() throws IOException{
-        double result = unaryFactor();
+    private Sexpr factor() throws IOException{
+        Sexpr result;
         if(st.nextToken() != '('){
             st.pushBack();
             result = number();
@@ -48,52 +58,45 @@ class Parser{
         return result;
     }
 
-	private double unaryFactor() throws IOException
-	{
-		double unrExpr;
-		double nTkn = st.nextToken()
-
-		switch(nTkn)
-		{
-			case "sin";
-			{	
-				//TODO: Funktion för sin token, unrExpr = nTkn?
-				return true;
-			}
-			case "cos";
-			{	
-				//TODO: Funktion för cos token
-				return true;
-			}
-			case "log";
-			{
-				//TODO: Funktion för log token
-				return true;
-			}
-			default: throw new SyntaxErrorException("Not a unary function");
-				
-			//alt break;
-		}
-		return unrExpr;
-	}
-
-
-    private double number() throws IOException{  //add posibility for variables
-        if(st.nextToken() == st.TT_NUMBER)
-		{
-            return st.nval;
+    private Sexpr number() throws IOException{
+        
+        if(st.nextToken() == st.TT_WORD) {
+            st.pushBack();
+            return variableOrUnary();
         }
-		else if(st.nextToken() == st.TT_WORD)
-		{
-			return st.sval;
-		}
-		else
-		{
-			throw new SyntaxErrorException("Expected number or variable");
-		}
+        st.pushBack();
+
+        if(st.nextToken() != st.TT_NUMBER){
+            throw new SyntaxErrorException("Expected number");
+        }
+        return new Constant(st.nval);
     }
 
-	throw new SyntaxErrorException("Expected number");
+    private Sexpr variableOrUnary() throws IOException{
+        if(st.nextToken() != st.TT_WORD && st.sval.length() != 3 && st.sval.length() != 1) { 
+            throw new SyntaxErrorException("Expected a variable or unirary expression");
+        }
+        else if(st.sval.length() == 3) {
+            switch(st.sval) {
+            case "cos":
+                return new Cos(expression());
+            case "sin":
+                expression();
+                return new Sin(expression());
+            case "exp":
+                expression();
+                return new Exp(expression());
+            case "log":
+                expression();
+                return new Log(expression());
+            default:
+                throw new SyntaxErrorException("Unknown Expression");
+            }
+                
+        }
+        else
+            return new Variable(st.sval);
+    }
 }
 
 class SyntaxErrorException extends RuntimeException{
