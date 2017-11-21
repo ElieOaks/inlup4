@@ -1,13 +1,12 @@
 public class Subtraction extends Binary{
 
     //Attributes
-    String sign = "-";
     int prio = 1;
 
 
     //Constructor
     public Subtraction(Sexpr left, Sexpr right) {
-        super(left, right);
+        super(left, right, " - ");
         
     }
     //Methods
@@ -17,6 +16,10 @@ public class Subtraction extends Binary{
 
     public int priority() {
         return this.prio;
+    }
+
+    public String toString() {
+        return "(" + this.getLeft().toString() + " - " + this.getRight().toString() + ")";
     }
     
 }
