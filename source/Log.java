@@ -10,7 +10,17 @@ public class Log extends Unary {
     }    
 
     //Methods
-    public Sexpr eval() {
-        return new Constant(log(this.getArgument().eval()));
+
+     public double getValue() { //FIXME lite defensiv programmering. 
+         return Math.log(this.getArgument().getValue());
+    }
+      
+   public Sexpr eval() {
+       if (this.isConstant()) {
+           return new Constant(this.getValue());
+        }
+        else {
+            return new Log(this.getArgument().eval());
+        }
     }
 }

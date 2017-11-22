@@ -24,7 +24,7 @@ abstract class Binary extends Sexpr{
     }
 
     public boolean isConstant() {
-        return this.left.isConstant() || this.right.isCOnstant();
+        return this.left.isConstant() || this.right.isConstant();
     }
 
     public String toString() { //TODO: Switch cases based on priority

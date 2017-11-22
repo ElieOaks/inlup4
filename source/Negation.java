@@ -9,12 +9,19 @@ public class Negation extends Unary {
     }    
 
     //Methods
-
-    public boolean isConstant() {
-        return false;
+     public double getValue() { //FIXME lite defensiv programmering. 
+         return 0-(this.getArgument().getValue());
     }
-
+      
+    
     public Sexpr eval() {
-        return new Constant(-(this.getArgument().eval()));
+        if (this.isConstant()) {
+            return new Constant(this.getValue());
+        }
+        else {
+            return new Negation(this.getArgument().eval());
+        }
     }
+
+    
 }

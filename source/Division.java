@@ -15,13 +15,14 @@ public class Division extends Binary{
         return this.prio;
     }
 
-    public String toString() {
-        return "(" + this.getLeft().toString() + " / " + this.getRight().toString() + ")";
+     public double getValue() { //FIXME lite defensiv programmering. 
+        return this.getLeft().getValue()/this.getRight().getValue();
     }
+      
 
     public Sexpr eval() {
         if (this.isConstant()) {
-            return new Constant(this.getLeft().eval()/this.getRight().eval());
+            return new Constant(this.getValue());
         }
         else {
             return new Division(this.getLeft().eval(), this.getRight().eval());

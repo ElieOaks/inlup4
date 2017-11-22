@@ -6,7 +6,15 @@ public class Variable extends Atom {
     }
 
     public boolean isConstant() {
-        return true;
+        return false;
+    }
+
+    public Sexpr eval() {
+        return this;
+    }
+
+    public double getValue() { //FIXME
+        return 0;
     }
 
     public String toString() {

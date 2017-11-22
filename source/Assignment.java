@@ -13,8 +13,18 @@ public class Assignment extends Binary{
         return this.prio;
     }
 
-    public Sexpr eval() {
-        return new Assignment(this.getLeft().eval(), this.getRight()) ;
+     public double getValue() { //FIXME lite defensiv programmering.+ special för denna
+         return this.getLeft().getValue();
+    }
+
+    public boolean isConstant() { //FIXME
+        return false;
+    }
+      
+
+    public Sexpr eval() {   //FIXME?     
+        return new Assignment(this.getLeft().eval(), this.getRight());       
+         
     }
     
 }

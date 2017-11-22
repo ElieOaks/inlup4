@@ -8,10 +8,18 @@ public class Sin extends Unary {
         super(argument, "sin");
         this.sign = "Sin(" + argument.toString() + ")";
         
-    }    
+    }
+     public double getValue() { //FIXME lite defensiv programmering. 
+         return Math.sin(this.getArgument().getValue());
+    }
+      
 
     //Methods
     public Sexpr eval() {
-        return new Constant(sin(this.getArgument().eval()));
+        if (this.isConstant())
+            return new Constant(this.getValue());
+        else {
+            return new Sin(this.getArgument().eval());
+        }
     }
 }

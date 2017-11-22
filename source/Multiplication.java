@@ -11,8 +11,18 @@ public class Multiplication extends Binary{
 
 
     //Methods
+    public double getValue() { //FIXME lite defensiv programmering. 
+        return this.getLeft().getValue()*this.getRight().getValue();
+    }
+      
+    
     public Sexpr eval() {
-        return new Constant(this.getLeft().eval() * this.getRight().eval());
+        if (this.isConstant()) {
+            return new Constant(this.getValue());
+        }
+        else {
+            return new Multiplication(this.getLeft().eval(),this.getRight().eval());   
+        }
     }
 
     public int priority() {
@@ -20,3 +30,4 @@ public class Multiplication extends Binary{
     }
     
 }
+

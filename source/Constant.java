@@ -15,8 +15,13 @@ public class Constant extends Atom {
         return true;
     }
 
-    public Sexpr eval() {
+     public double getValue() { //FIXME lite defensiv programmering. 
         return this.constant;
+    }
+      
+
+    public Sexpr eval() {
+        return this;
     }
 
 }

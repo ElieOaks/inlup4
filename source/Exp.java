@@ -7,8 +7,21 @@ public class Exp extends Unary {
         
     }
 
+    //Methods
+
+     public double getValue() { //FIXME lite defensiv programmering. 
+         return Math.exp(this.getArgument().getValue());
+    }
+      
+
     public Sexpr eval() {
-        return new Constant(exp(this.getArgument().eval());
+        if (this.isConstant()) {
+            return new Constant(this.getValue());
+        }
+        else {
+            return new Exp(this.getArgument().eval());
+        }
     }
 
 }
+

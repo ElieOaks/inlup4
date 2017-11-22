@@ -11,7 +11,9 @@ class ParserDriver{
                 Parser p = new Parser();
                 System.out.print("\n? ");
                 Sexpr result = p.expression();
-                System.out.println("result: " + result);            
+                System.out.println("result: " + result);
+                Sexpr total = result.eval();
+                System.out.println("evaluated to: " + total);
             
             }catch(SyntaxErrorException e){
                 System.out.print("Syntax Error: ");
