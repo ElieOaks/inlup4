@@ -1,3 +1,4 @@
+
 import java.io.StreamTokenizer;
 import java.io.IOException;
 
@@ -16,35 +17,46 @@ class Parser{
         st.eolIsSignificant(true);
     }
 
-    public double expression() throws IOException {
-        double sum = term();
+    /**
+     * @return a Sexpr expression. If there is a '+'/'-', it returns a Addition/Subtraction Sexpr. 
+     */
+    public Sexpr expression() throws IOException{
+        Sexpr expression = term();
         st.nextToken();
-        while (st.ttype == '+' || st.ttype == '-'){
+        while (st.ttype == '+' || st.ttype == '-') {
             if(st.ttype == '+'){
-                sum += term();
+                Sexpr termRight = term();
+                expression = new Addition(expression, termRight);
             }else{
-                sum -= term();
+                Sexpr termRight = term();
+                expression = new Subtraction(expression, termRight);
             }
             st.nextToken();
         }
         st.pushBack();
-        return sum;
-    }
-
-    private double term() throws IOException{
-        double prod = factor();
-        while (st.nextToken() == '*'){
-            prod *= factor();
-        }
-        st.pushBack();
-        return prod;
+        return expression;
     }
 
     /**
-     *
+     * @return a Sexpr expression. If there is a '*', it returns a Multiplicaiton Sexpr. 
      */
-    private double factor() throws IOException {
-        double result = unaryFactor();
+    private Sexpr term() throws IOException{
+        Sexpr expression = factor();
+        while (st.nextToken() == '*'){
+            Sexpr factorRight = term();
+            expression = new Multiplication(expression, factorRight);
+        }
+        st.pushBack();
+        return expression;
+    }
+
+    /**
+     * Checks if the following character is the beginning of a number or an expression between paranthesees. 
+     * @return a Sexpr expression. 
+     * throws exception if paranthesees are not matching. 
+     */
+    private Sexpr factor() throws IOException{
+        Sexpr result;
         if(st.nextToken() != '('){
             st.pushBack();
             result = number();
@@ -57,56 +69,76 @@ class Parser{
         return result;
     }
 
-    /**
-     * Checks if proper Unirary expression
-     * @return the read Unirary Expression or throws exception.        
+     /** 
+     * @return a Sexp expression of a Constant or returns a call of variableorUnary()
+     * Throws exception if it is neither a word of a number.
      */
-    private double unaryFactor() throws IOException {
-        double unrExpr;
-        int nTkn = st.nextToken();
+    private Sexpr number() throws IOException{
+        
+        if(st.nextToken() == st.TT_WORD) {
+            st.pushBack();
+            return variableOrUnary();
+        }
+        st.pushBack();
 
-        switch(nTkn)
-		{
-                case "sin":
-                {	
-                    //TODO: Funktion for sin token, unrExpr = nTkn?
-                    break;
-                }
-                case "cos":
-                {	
-                    //TODO: Funktion for cos token
-                    break;
-                }
-                case "log":
-                {
-                    //TODO: Funktion for log token
-                    break;
-                }
-                default: throw new SyntaxErrorException("Not a unary function");
-				
-                //alt break;
-		}
-        return unrExpr;
+        if(st.nextToken() != st.TT_NUMBER){
+            throw new SyntaxErrorException("Expected number");
+        }
+        return new Constant(st.nval);
+       
     }
 
     /**
-     * @return a string value, or a numeric value depending on the inputs type.
-     * Throws exception if not a numeric value or string value.
+     * Checks if there are matching paranthesees
+     * Throws exception if parantheses do not match. 
+     * @return the expression between the matching paranthesees.
      */
-    private double number() throws IOException{  //add posibility for variables
-        if(st.nextToken() == st.TT_NUMBER)
-            {
-                return st.nval;
+    private Sexpr checkParanthesees() throws IOException{
+        if(st.nextToken() != '('){
+            throw new SyntaxErrorException("expected '('");
+        }
+        Sexpr argument = expression();
+        if(st.nextToken() != ')'){
+            throw new SyntaxErrorException("expected ')'");
+        }
+        return argument;
+    }
+
+    /**
+     * Checks if the a string is variable, or a unary expression
+     * Throws exception when: length > 1 && not a Unary expression.
+     * @return the variableor Unary expression.
+     */
+    private Sexpr variableOrUnary() throws IOException{
+        if(st.nextToken() != st.TT_WORD && st.sval.length() != 3 && st.sval.length() != 1) { 
+            throw new SyntaxErrorException("Expected a variable or unirary expression");
+        }
+        else if(st.sval.length() == 3) {
+            switch(st.sval) {
+            case "cos":
+                Sexpr cosArgument = checkParanthesees();
+                return new Cos(cosArgument);
+            case "sin":
+                Sexpr sinArgument = checkParanthesees();
+                return new Sin(sinArgument);
+            case "exp":
+                Sexpr expArgument = checkParanthesees();
+                return new Exp(expArgument);
+            case "log":
+                Sexpr logArgument = checkParanthesees();
+                return new Log(logArgument);
+            default:
+                throw new SyntaxErrorException("Unknown Expression");
             }
-        else if(st.nextToken() == st.TT_WORD)
-            {
-                return st.sval;
-            }
+                
+        }
         else
-            {
-                throw new SyntaxErrorException("Expected number or variable");
+            if (st.sval == "-") {
+                return new Negation(expression());
             }
-    
+        return new Variable(st.sval);
+    }
+}
 
         throw new SyntaxErrorException("Expected number");
     }

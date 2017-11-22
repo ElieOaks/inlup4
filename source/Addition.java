@@ -10,20 +10,13 @@ public class Addition extends Binary{
     }
 
     //Methods
-    /**
-     * Check if addition is a constant.
-     * Always returns false.
-     */
-    public boolean isConstant() {
-        return false;
-    }
-
     public int priority() {
         return this.prio;
     }
 
-    public String toString() {
-        return  "(" + this.getLeft().toString() +" + "+ this.getRight().toString() + ")";
+    public Sexpr eval() {
+        return new Constant(this.getLeft().eval() + this.getRight().eval());
     }
+
     
 }

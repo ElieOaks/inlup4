@@ -3,5 +3,5 @@ abstract class Sexpr {
     //abstract double getValue();
     //abstract int priority();
     abstract boolean isConstant();
-    //Sexpr eval(map);
+    abstract Sexpr eval(Sexpr map);
 }

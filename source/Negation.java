@@ -13,4 +13,8 @@ public class Negation extends Unary {
     public boolean isConstant() {
         return false;
     }
+
+    public Sexpr eval() {
+        return new Constant(-(this.getArgument().eval()));
+    }
 }

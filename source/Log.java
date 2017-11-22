@@ -10,7 +10,7 @@ public class Log extends Unary {
     }    
 
     //Methods
-    public boolean isConstant() {
-        return false;
+    public Sexpr eval() {
+        return new Constant(log(this.getArgument().eval()));
     }
 }

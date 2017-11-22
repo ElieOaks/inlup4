@@ -23,6 +23,10 @@ abstract class Binary extends Sexpr{
         return this.right;
     }
 
+    public boolean isConstant() {
+        return this.left.isConstant() || this.right.isCOnstant();
+    }
+
     public String toString() { //TODO: Switch cases based on priority
         return "(" + this.left.toString() + this.sign + this.right.toString() + ")";
     }

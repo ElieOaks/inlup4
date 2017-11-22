@@ -14,4 +14,9 @@ public class Constant extends Atom {
     public boolean isConstant() {
         return true;
     }
+
+    public Sexpr eval() {
+        return this.constant;
+    }
+
 }
