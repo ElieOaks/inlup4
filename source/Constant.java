@@ -14,4 +14,14 @@ public class Constant extends Atom {
     public boolean isConstant() {
         return true;
     }
+
+     public double getValue() { //FIXME lite defensiv programmering. 
+        return this.constant;
+    }
+      
+
+    public Sexpr eval() {
+        return this;
+    }
+
 }

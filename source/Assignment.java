@@ -9,12 +9,22 @@ public class Assignment extends Binary{
     }
 
     //Methods
-    public boolean isConstant() {
-        return false;
-    }
-
     public int priority() {
         return this.prio;
+    }
+
+     public double getValue() { //FIXME lite defensiv programmering.+ special för denna
+         return this.getLeft().getValue();
+    }
+
+    public boolean isConstant() { //FIXME
+        return false;
+    }
+      
+
+    public Sexpr eval() {   //FIXME?     
+        return new Assignment(this.getLeft().eval(), this.getRight());       
+         
     }
     
 }

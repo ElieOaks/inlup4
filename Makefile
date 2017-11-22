@@ -11,6 +11,9 @@ runall: all
 test: all
 	java -cp $(JUNI) TestFile
 
+runall: all
+	java -cp $(JUNI) ParserDriver
+
 clean:
 	rm -f *~
 	rm -f *#
