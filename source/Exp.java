@@ -7,8 +7,8 @@ public class Exp extends Unary {
         
     }
 
-    public boolean isConstant() {
-        return false;
+    public Sexpr eval() {
+        return new Constant(exp(this.getArgument().eval());
     }
 
 }

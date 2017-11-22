@@ -10,8 +10,11 @@ public class Cos extends Unary {
     }    
 
     //Methods
-
     public boolean isConstant() {
         return false;
+    }
+
+    public Sexpr eval() {
+        return new Constant(cos(this.getArgument().eval()));
     }
 }

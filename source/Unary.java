@@ -19,5 +19,9 @@ abstract class Unary extends Sexpr {
     public String toString() {
         return this.sign + "(" + this.argument + ")";
     }
+
+    public boolean isConstant() {
+        return this.argument.isConstant();
+    }
     
 }

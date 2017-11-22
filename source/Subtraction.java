@@ -18,6 +18,10 @@ public class Subtraction extends Binary{
         return this.prio;
     }
 
+    public Sexpr eval() {
+        return new Constant(this.getLeft().eval() - this.getRight().eval());
+    }
+
     public String toString() {
         return "(" + this.getLeft().toString() + " - " + this.getRight().toString() + ")";
     }

@@ -9,12 +9,12 @@ public class Assignment extends Binary{
     }
 
     //Methods
-    public boolean isConstant() {
-        return false;
-    }
-
     public int priority() {
         return this.prio;
+    }
+
+    public Sexpr eval() {
+        return new Assignment(this.getLeft().eval(), this.getRight()) ;
     }
     
 }

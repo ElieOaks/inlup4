@@ -11,8 +11,8 @@ public class Multiplication extends Binary{
 
 
     //Methods
-    public boolean isConstant() {
-        return false;
+    public Sexpr eval() {
+        return new Constant(this.getLeft().eval() * this.getRight().eval());
     }
 
     public int priority() {
