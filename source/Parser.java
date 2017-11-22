@@ -60,17 +60,16 @@ class Parser{
         if(st.nextToken() != '('){
             st.pushBack();
             result = number();
-        }else{
+        } else {
             result = expression();
-            if(st.nextToken() != ')'){
+            if (st.nextToken() != ')') {
                 throw new SyntaxErrorException("expected ')'");
             }
         }
         return result;
     }
 
-    /**
-     * 
+     /** 
      * @return a Sexp expression of a Constant or returns a call of variableorUnary()
      * Throws exception if it is neither a word of a number.
      */
@@ -141,11 +140,15 @@ class Parser{
     }
 }
 
-class SyntaxErrorException extends RuntimeException{
-    public SyntaxErrorException(){
-        super();
+        throw new SyntaxErrorException("Expected number");
     }
-    public SyntaxErrorException(String msg){
-        super(msg);
+
+    public class SyntaxErrorException extends RuntimeException{
+        public SyntaxErrorException(){
+            super();
+        }
+        public SyntaxErrorException(String msg){
+            super(msg);
+        }
     }
 }
