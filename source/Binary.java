@@ -50,7 +50,7 @@ abstract class Binary extends Sexpr{
             left = "(" + left + ")";
         }
         if (this.right.priority() < this.priority()) {
-            left = "(" + right + ")";
+            right = "(" + right + ")";
         }
         return left + this.getName() + right ;
     }

@@ -37,12 +37,7 @@ public class Division extends Binary{
      * @return the evaluated Sexpr expression.
      */
     public Sexpr eval(HashMap<String,Sexpr> map) {
-        if (this.isConstant()) {
-            return new Constant(this.getValue());
-        }
-        else {
-            return new Division(this.getLeft().eval(map), this.getRight().eval(map));
-        }
+        return Symbolic.division(this.getLeft().eval(map), this.getRight().eval(map));
             
     }
     

@@ -47,7 +47,7 @@ public class Assignment extends Binary{
      * Adds the assignment to map, or changes the value of a variabel is already part of the map.
      */
     public Sexpr eval(HashMap<String,Sexpr> map) {
-        Sexpr assign = new Assignment(this.getLeft().eval(map), this.getRight());
+        Sexpr assign = Symbolic.assignment(this.getLeft().eval(map), this.getRight());
         String character = this.getRight().toString();
         if (map.containsKey(character)){
             map.remove(character);            

@@ -1,53 +1,48 @@
 public class Symbolic{
 
-    static Sexpr Addition(Sexpr arg1, Sexpr arg2){
-         if (arg1.isConstant() && arg2.isConstant()) {
-            return new Constant(arg1.getValue() + arg2.getValue());
+    static Sexpr addition(Sexpr left, Sexpr right){
+        if (left.isConstant() && right.isConstant()) {
+            return new Constant(left.getValue() + right.getValue());
         }
         else {
-            return new Addition(arg1, arg2);
+            return new Addition(left, right);
         }
         
     }
 
-static Sexpr Subtraction(Sexpr arg1, Sexpr arg2){
-         if (arg1.isConstant() && arg2.isConstant()) {
-            return new Constant(arg1.getValue() - arg2.getValue());
+    static Sexpr subtraction(Sexpr left, Sexpr right){
+        if (left.isConstant() && right.isConstant()) {
+            return new Constant(left.getValue() - right.getValue());
         }
         else {
-            return new Subtraction(arg1, arg2);
+            return new Subtraction(left, right);
         }
         
     }
 
 
-static Sexpr Division(Sexpr arg1, Sexpr arg2){
-         if (arg1.isConstant() && arg2.isConstant()) {
-            return new Constant(arg1.getValue() / arg2.getValue());
+    static Sexpr division(Sexpr left, Sexpr right){
+        if (left.isConstant() && right.isConstant()) {
+            return new Constant(left.getValue() / right.getValue());
         }
         else {
-            return new Division(arg1, arg2);
+            return new Division(left, right);
         }
         
     }
 
-static Sexpr Multiplication(Sexpr arg1, Sexpr arg2){
-         if (arg1.isConstant() && arg2.isConstant()) {
-            return new Constant(arg1.getValue() * arg2.getValue());
+    static Sexpr multiplication(Sexpr left, Sexpr right){
+        if (left.isConstant() && right.isConstant()) {
+            return new Constant(left.getValue() * right.getValue());
         }
         else {
-            return new Multiplication(arg1, arg2);
+            return new Multiplication(left, right);
         }
         
     }
 
-static Sexpr Assignment(Sexpr arg1, Sexpr arg2){
-         if (arg1.isConstant()) {
-            return new Assignment(arg1, arg2);
-        }
-        else {
-            return arg1;
-        }
+    static Sexpr assignment(Sexpr left, Sexpr right){
+        return left;
         
     }
 

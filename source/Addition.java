@@ -38,14 +38,6 @@ public class Addition extends Binary{
      * @param map is the HashMap that contains all the variables and assignment.
      */
     public Sexpr eval(HashMap<String,Sexpr> map) {
-        if (this.isConstant()) {
-            return new Constant(this.getValue());
-        }
-        else {
-            return new Addition(this.getLeft().eval(map), this.getRight().eval(map));
-        }
-           
-    }
-
-    
+        return Symbolic.addition(this.getLeft().eval(map), this.getRight().eval(map));           
+    }    
 }

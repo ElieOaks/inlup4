@@ -31,12 +31,7 @@ public class Multiplication extends Binary{
      * @return the evaluated Sexpr expression.
      */
     public Sexpr eval(HashMap<String,Sexpr> map) {
-        if (this.isConstant()) {
-            return new Constant(this.getValue());
-        }
-        else {
-            return new Multiplication(this.getLeft().eval(map),this.getRight().eval(map));   
-        }
+        return Symbolic.multiplication(this.getRight().eval(map), this.getLeft().eval(map));
     }
 
     /**
