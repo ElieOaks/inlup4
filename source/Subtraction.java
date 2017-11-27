@@ -1,29 +1,40 @@
+import java.util.*;
 public class Subtraction extends Binary{
 
     //Attributes
     int prio = 1;
+    String name = " - ";
 
 
     //Constructor
     public Subtraction(Sexpr left, Sexpr right) {
-        super(left, right, " - ");
+        super(left, right);
         
     }
     //Methods
+    /**
+     * @return the priority of Subtraction, which is 1.
+     */
     public int priority() {
         return this.prio;
     }
 
-    public double getValue() { //FIXME lite defensiv programmering. 
+    /**
+     * @return '-'
+     */
+    public String getName() {
+        return this.name;
+    }
+
+    /**
+     * @return the evaluated constant.
+     */
+    public double getValue() {
         return this.getLeft().getValue() - this.getRight().getValue();
     }
         
-    public Sexpr eval() {
-        if (this.isConstant())
-            return new Constant(this.getValue());
-        else {
-            return new Subtraction(this.getLeft().eval(), this.getRight().eval());
-        }
+    public Sexpr eval(HashMap<String,Sexpr> map) {
+        return Symbolic.subtraction(this.getLeft().eval(map), this.getRight().eval(map));
     }
 
     public String toString() {

@@ -23,5 +23,13 @@ abstract class Unary extends Sexpr {
     public boolean isConstant() {
         return this.argument.isConstant();
     }
+
+     public boolean isQuit() {
+        return false;
+    }
+
+    public boolean isVars() {
+        return false;
+    }
     
 }

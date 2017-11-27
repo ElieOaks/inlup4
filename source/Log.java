@@ -1,3 +1,4 @@
+import java.util.*;
 public class Log extends Unary {
 
     //Attributes
@@ -11,16 +12,24 @@ public class Log extends Unary {
 
     //Methods
 
-     public double getValue() { //FIXME lite defensiv programmering. 
-         return Math.log(this.getArgument().getValue());
+    /**
+     * @return the constant of the Sexor expression evaluated.
+     */
+    public double getValue() { //FIXME lite defensiv programmering. 
+        return Math.log(this.getArgument().getValue());
     }
-      
-   public Sexpr eval() {
-       if (this.isConstant()) {
-           return new Constant(this.getValue());
-        }
-        else {
-            return new Log(this.getArgument().eval());
-        }
+
+    /**
+     * @return the evaluated Sexpr expression.
+     */
+    public Sexpr eval(HashMap<String,Sexpr> map) {
+        return Symbolic.log(this.getArgument().eval(map));
+    }
+
+    /**
+     *@ return the priority of Log, which is 3.
+     */
+    public int priority() {
+        return this.prio;
     }
 }

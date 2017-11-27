@@ -1,3 +1,5 @@
+import java.util.*;
+
 public class Negation extends Unary {
 
     //Attributes
@@ -9,18 +11,25 @@ public class Negation extends Unary {
     }    
 
     //Methods
+    /**
+     * @return the Constant of the exaluated Sexpr expression.
+     */
      public double getValue() { //FIXME lite defensiv programmering. 
-         return 0-(this.getArgument().getValue());
+         return -this.getArgument().getValue();
     }
-      
-    
-    public Sexpr eval() {
-        if (this.isConstant()) {
-            return new Constant(this.getValue());
-        }
-        else {
-            return new Negation(this.getArgument().eval());
-        }
+
+    /**
+     * @return the most evaluated Sexpr expression.
+     */
+    public Sexpr eval(HashMap<String,Sexpr> map) {
+        return Symbolic.negation(this.getArgument().eval(map));
+    }
+
+    /**
+     * @return the priority of Negation, which is 0.
+     */
+    public int priority() {
+        return 0;
     }
 
     

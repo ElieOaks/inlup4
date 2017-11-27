@@ -1,3 +1,5 @@
+import java.util.*;
+
 public class Cos extends Unary {
 
     //Attributes
@@ -10,18 +12,24 @@ public class Cos extends Unary {
     }    
 
     //Methods
+    /**
+       return the cos of the evaluated argument. 
+     */
     public double getValue() { //FIXME lite defensiv programmering. 
         return Math.cos(this.getArgument().getValue());
     }
-      
-    
-    public Sexpr eval() {
-        if (this.isConstant()) {
-            return new Constant(this.getValue());
-        }
-        else {
-            return new Cos(this.getArgument().eval());
-        }
+
+    /**
+     * @return the priority of cos, which is 3.
+     */
+    public int priority() {
+        return this.prio;
+    }
+
+    /**
+     * @return the evaluated Sexpr expression.
+     */
+    public Sexpr eval(HashMap<String,Sexpr> map) {
+        return Symbolic.sin(this.getArgument().eval(map));
     }
 }
-

@@ -17,6 +17,6 @@ runall: all
 clean:
 	rm -f *~
 	rm -f *#
-	rm -f ./source/*.#
+	rm -f ./source/*#
 	rm -f ./source/*~
 	rm -f ./bin/*.class

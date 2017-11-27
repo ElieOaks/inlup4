@@ -2,32 +2,60 @@ abstract class Binary extends Sexpr{
     //Attributes
     private Sexpr left;
     private Sexpr right;
-    private String sign;
     
     //Constructor
-    public Binary(Sexpr left, Sexpr right, String sign) {
+    public Binary(Sexpr left, Sexpr right) {
         this.left = left;
         this.right = right;
-        this.sign = sign;
     }
 
     //Abstract Methods
-    //abstract String toString();
+    abstract String getName();
 
     //Methods
+
+    public boolean isQuit() {
+        return false;
+    }
+
+    public boolean isVars() {
+        return false;
+    }
+    
+    /**
+       return the left Sexpr argument. 
+     */
     public Sexpr getLeft() {
         return this.left;
     }
 
+    /**
+       return the right Sexpr argument. 
+     */
     public Sexpr getRight() {
         return this.right;
     }
 
+    /**
+     * @return true if both arguments are constant. Otherwise false. 
+     */
     public boolean isConstant() {
         return this.left.isConstant() || this.right.isConstant();
     }
 
-    public String toString() { //TODO: Switch cases based on priority
-        return "(" + this.left.toString() + this.sign + this.right.toString() + ")";
+    /**
+     * @return the string of the Sexpr. 
+     * Only uses paranthsees arount an argument if its priority is lower than this. 
+     */
+    public String toString() {
+        String left = this.left.toString();
+        String right = this.right.toString();
+        if (this.left.priority() < this.priority()) {
+            left = "(" + left + ")";
+        }
+        if (this.right.priority() < this.priority()) {
+            right = "(" + right + ")";
+        }
+        return left + this.getName() + right ;
     }
 }
