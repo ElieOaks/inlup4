@@ -1,6 +1,6 @@
-
-
 import java.io.StreamTokenizer;
+
+
 import java.io.IOException;
 
 class Parser{
@@ -27,13 +27,31 @@ class Parser{
         while (st.ttype == '+' || st.ttype == '-' || st.ttype == '=') {
             if(st.ttype == '+'){
                 Sexpr rightTerm = termMultOrDiv();
-                expr = new Addition(expr, rightTerm);
+
+                if(rightTerm == null) {
+                    throw new SyntaxErrorException("Incorrect right side term");
+                }else{
+                    expr = new Addition(expr, rightTerm);
+                }
+
             }else if(st.ttype == '-'){
                 Sexpr rightTerm = termMultOrDiv();
-                expr = new Subtraction(expr, rightTerm);
+
+                if(rightTerm == null) {
+                    throw new SyntaxErrorException("Incorrect right side term");
+                }else{
+                    expr = new Subtraction(expr, rightTerm);
+                }
+
             }else {
                 Sexpr rightTerm = assignment();
-                expr = new Assignment(expr, rightTerm);
+                
+                if(rightTerm == null) {
+                    throw new SyntaxErrorException("Incorrect right side term");
+                }else{
+                    expr = new Assignment(expr, rightTerm);
+                }
+
             }
             st.nextToken();
         }
@@ -63,7 +81,13 @@ class Parser{
             st.pushBack();
             while (st.nextToken() == '*'){
                 Sexpr factorRight = termMultOrDiv();
-                expr = new Multiplication(expr, factorRight);
+
+                if(factorRight == null) { 
+                    throw new SyntaxErrorException("Incorrect right side expression");
+                }else{
+                    expr = new Multiplication(expr, factorRight);
+                }
+
             }
             st.pushBack();
         } 
@@ -71,7 +95,13 @@ class Parser{
             st.pushBack();
             while (st.nextToken() == '/'){
                 Sexpr factorRight = termMultOrDiv();
-                expr = new Division(expr, factorRight);
+
+                if(factorRight == null) {
+                    throw new SyntaxErrorException("Incorrect right side expression");
+                }else{
+                    expr = new Division(expr, factorRight);
+                }
+
             }
             st.pushBack();
         } 
