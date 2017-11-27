@@ -1,3 +1,4 @@
+
 import java.io.StreamTokenizer;
 import java.io.IOException;
 
@@ -13,67 +14,64 @@ class Parser{
     public Parser(){
         st = new StreamTokenizer(System.in);
         st.ordinaryChar('-');
+        st.ordinaryChar('/');
         st.eolIsSignificant(true);
     }
 
+    public Sexpr commands() throws IOException{
+        st.nextToken();
+        if (st.ttype == st.TT_WORD) {
+            switch(st.sval) {
+            case "vars":
+                return new Vars();
+            case "quit":
+                return new Quit();
+            }
+            
+        }
+        st.pushBack();
+        return expression();
+    }
     /**
      * @return a Sexpr expression. If there is a '+'/'-', it returns a Addition/Subtraction Sexpr. 
      */
-    public Sexpr expression() throws IOException{
-        Sexpr expr = termMultOrDiv();
+    private Sexpr expression() throws IOException{
+        Sexpr expression = term();
         st.nextToken();
         while (st.ttype == '+' || st.ttype == '-' || st.ttype == '=') {
             if(st.ttype == '+'){
-                Sexpr rightTerm = termMultOrDiv();
-                expr = new Addition(expr, rightTerm);
-            }else if(st.ttype == '-'){
-                Sexpr rightTerm = termMultOrDiv();
-                expr = new Subtraction(expr, rightTerm);
-            }else {
-                Sexpr rightTerm = assignment();
-                expr = new Assignment(expr, rightTerm);
+                Sexpr termRight = term();
+                expression = new Addition(expression, termRight);
+            } else if (st.ttype == '-'){
+                Sexpr termRight = term();
+                expression = new Subtraction(expression, termRight);
+            } else {
+                Sexpr termRight = variable();
+                if (termRight.toString().length() == 1)
+                expression = new Assignment(expression, termRight);//Set conditions in Binary?
             }
             st.nextToken();
         }
         st.pushBack();
-        return expr;
+        return expression;
     }
-
-    
-    private Sexpr assignment() {  //how to get left value, read 3 tokens?
-        Sexpr rightTerm;
-        st.nextToken();
-        if(st.ttype == st.TT_WORD) {
-            return new Variable(st.sval);
-        }
-        else {
-            throw new SyntaxErrorException("Incorrect assignment, expected variable");
-        }
-    }
-
 
     /**
      * @return a Sexpr expression. If there is a '*', it returns a Multiplicaiton Sexpr. 
      */
-    private Sexpr termMultOrDiv() throws IOException{ //needs a better name
-        Sexpr expr = factor();
-        if(st.nextToken() == '*') {
-            st.pushBack();
-            while (st.nextToken() == '*'){
-                Sexpr factorRight = termMultOrDiv();
-                expr = new Multiplication(expr, factorRight);
-            }
-            st.pushBack();
-        } 
-        if(st.nextToken() == '/') {
-            st.pushBack();
-            while (st.nextToken() == '/'){
-                Sexpr factorRight = termMultOrDiv();
-                expr = new Division(expr, factorRight);
-            }
-            st.pushBack();
-        } 
-        return expr;
+    private Sexpr term() throws IOException{
+        Sexpr expression = factor();
+        st.nextToken();
+        if (st.ttype == '*'){
+            Sexpr factorRight = term();
+            expression = new Multiplication(expression, factorRight);
+        }
+        else if (st.ttype == '/') {
+            Sexpr factorRight = term();
+            expression = new Division(expression, factorRight); 
+        }        
+        st.pushBack();
+        return expression;
     }
 
     /**
@@ -86,16 +84,17 @@ class Parser{
         if(st.nextToken() != '('){
             st.pushBack();
             result = number();
-        } else {
+        }else{
             result = expression();
-            if (st.nextToken() != ')') {
+            if(st.nextToken() != ')'){
                 throw new SyntaxErrorException("expected ')'");
             }
         }
         return result;
     }
 
-     /** 
+    /**
+     * 
      * @return a Sexp expression of a Constant or returns a call of variableorUnary()
      * Throws exception if it is neither a word of a number.
      */
@@ -106,7 +105,11 @@ class Parser{
             return variableOrUnary();
         }
         st.pushBack();
-
+        if (st.nextToken() == '-') {
+            Sexpr argument = checkParanthesees();
+            return new Negation(argument);
+        }
+        st.pushBack();
         if(st.nextToken() != st.TT_NUMBER){
             throw new SyntaxErrorException("Expected number");
         }
@@ -155,24 +158,21 @@ class Parser{
                 return new Log(logArgument);
             default:
                 throw new SyntaxErrorException("Unknown Expression");
-            }
-                
-        }   //How to support negation?
-        else
-            if (st.sval == "-") {
-                return new Negation(expression());
-            }
-        return new Variable(st.sval);
+            }                
+        }
+        else {
+            st.pushBack();
+            return variable();
+        }
+    }
+
+    private Sexpr variable() throws IOException{
+        if (st.nextToken() == st.TT_WORD && st.sval.length() == 1) {
+            return new Variable(st.sval);
+        }
+        throw new SyntaxErrorException("Expected a variable");
     }
 
 
-
-    public class SyntaxErrorException extends RuntimeException{
-        public SyntaxErrorException(){
-            super();
-        }
-        public SyntaxErrorException(String msg){
-            super(msg);
-        }
-    }
+    
 }

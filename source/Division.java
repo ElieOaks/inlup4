@@ -1,33 +1,50 @@
+import java.util.*;
 public class Division extends Binary{
 
     //Attributes
     int prio = 2;
+    String name = " / ";
 
     //Constructor
     public Division(Sexpr left, Sexpr right) {
-        super(left, right, "/");
+        super(left, right);
         
     }
 
     //Methods
-    
+    /**
+     *@ return the priority of Division, which is 2.
+     */
     public int priority() {
         return this.prio;
     }
 
-     public double getValue() { //FIXME lite defensiv programmering. 
+    /**
+     * @return the sign for Division, which is /.
+     */
+    public String getName() {
+        return this.name;
+    }
+
+    /**
+     * @return the constant of the Sexor expression evaluated.
+     */
+    public double getValue() { //FIXME lite defensiv programmering. 
         return this.getLeft().getValue()/this.getRight().getValue();
     }
       
-
-    public Sexpr eval() {
+    /**
+     * @return the evaluated Sexpr expression.
+     */
+    public Sexpr eval(HashMap<String,Sexpr> map) {
         if (this.isConstant()) {
             return new Constant(this.getValue());
         }
         else {
-            return new Division(this.getLeft().eval(), this.getRight().eval());
+            return new Division(this.getLeft().eval(map), this.getRight().eval(map));
         }
             
     }
     
 }
+

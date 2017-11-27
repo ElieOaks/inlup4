@@ -1,3 +1,4 @@
+import java.util.*;
 public class Exp extends Unary {
     int prio = 3;
 
@@ -9,18 +10,31 @@ public class Exp extends Unary {
 
     //Methods
 
+    /**
+     * @return the constant of the Sexor expression evaluated.
+     */
      public double getValue() { //FIXME lite defensiv programmering. 
          return Math.exp(this.getArgument().getValue());
     }
       
 
-    public Sexpr eval() {
+    /**
+     * @return the evaluated Sexpr expression.
+     */
+    public Sexpr eval(HashMap<String,Sexpr> map) {
         if (this.isConstant()) {
             return new Constant(this.getValue());
         }
         else {
-            return new Exp(this.getArgument().eval());
+            return new Exp(this.getArgument().eval(map));
         }
+    }
+
+    /**
+     *@ return the priority of Exp, which is 3.
+     */
+    public int priority() {
+        return this.prio;
     }
 
 }

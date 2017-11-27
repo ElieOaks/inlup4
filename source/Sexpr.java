@@ -1,7 +1,9 @@
+import java.util.*;
+
 abstract class Sexpr {
     //abstract String getName();
     abstract double getValue();
-    //abstract int priority();
+    abstract int priority();
     abstract boolean isConstant();
-    abstract Sexpr eval();
+    abstract Sexpr eval(HashMap<String,Sexpr> map);
 }
