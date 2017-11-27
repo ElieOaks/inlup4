@@ -30,11 +30,6 @@ public class Cos extends Unary {
      * @return the evaluated Sexpr expression.
      */
     public Sexpr eval(HashMap<String,Sexpr> map) {
-        if (this.isConstant()) {
-            return new Constant(this.getValue());
-        }
-        else {
-            return new Cos(this.getArgument().eval(map));
-        }
+        return Symbolic.sin(this.getArgument().eval(map));
     }
 }

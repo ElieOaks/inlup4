@@ -19,6 +19,10 @@ public class Vars extends Command {
         return false;
     }
 
+    public boolean isVars() {
+        return true;
+    }
+
     /**
      * @return the priority of Sin, whih is 5.
      */

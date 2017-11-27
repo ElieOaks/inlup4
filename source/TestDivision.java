@@ -7,7 +7,7 @@ public class TestDivision {
     public Constant arg2 = new Constant(2);
     public Division num = new Division(arg1, arg2);
     public HashMap<String,Sexpr> map = new HashMap<String,Sexpr>();
-
+    public double exact = 0.0001;
 
     @Test
     public void testToString() {
@@ -22,7 +22,7 @@ public class TestDivision {
 
     @Test
     public void testGetValue() {
-        assertEquals(num.getValue(), 3);
+        assertEquals(num.getValue(), 3, exact);
     }
 
     @Test

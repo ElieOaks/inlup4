@@ -13,11 +13,28 @@ class ParserDriver{
             try{
                 Parser p = new Parser();
                 System.out.print("\n? ");
-                Sexpr result = p.commands();               
-                System.out.println("result: " + result);
-                Sexpr total = result.eval(map);
-                System.out.println("evaluated to: " + total);
-                System.out.println("Now in map: " +  map);
+                Sexpr result = p.commands();
+
+                if(result.isQuit()){
+                    System.out.println(result);
+                    return;
+                }
+
+                else if(result.isVars()){
+                    if (!map.isEmpty()) {
+                        System.out.println(map);
+                    }
+                    else {
+                        System.out.println("There are no variables"); 
+                    }
+                }
+                
+                else {
+                    System.out.println("result: " + result);
+                    Sexpr total = result.eval(map);
+                    System.out.println("evaluated to: " + total);
+                    System.out.println("Now in map: " +  map);
+                }
             }catch(SyntaxErrorException e){
                 System.out.print("Syntax Error: ");
                 System.out.println(e.getMessage());

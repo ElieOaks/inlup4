@@ -46,4 +46,50 @@ public class Symbolic{
         
     }
 
+    
+    static Sexpr cos(Sexpr argument) {
+        if (argument.isConstant()) {
+            return new Constant(Math.cos(argument.getValue()));
+        }
+        else {
+            return new Cos(argument);
+        }
+    }
+
+     static Sexpr sin(Sexpr argument) {
+        if (argument.isConstant()) {
+            return new Constant(Math.sin(argument.getValue()));
+        }
+        else {
+            return new Sin(argument);
+        }
+    }
+
+    static Sexpr exp(Sexpr argument) {
+        if (argument.isConstant()) {
+            return new Constant(Math.exp(argument.getValue()));
+        }
+        else {
+            return new Exp(argument);
+        }
+    }
+
+    static Sexpr log(Sexpr argument) {
+        if (argument.isConstant()) {
+            return new Constant(Math.log(argument.getValue()));
+        }
+        else {
+            return new Log(argument);
+        }
+    }
+
+    static Sexpr negation(Sexpr argument) {
+        if (argument.isConstant()) {
+            return new Constant(-(argument.getValue()));
+        }
+        else {
+            return new Negation(argument);
+        }
+    }
+    
 }

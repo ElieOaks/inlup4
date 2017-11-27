@@ -24,9 +24,11 @@ public class Variable extends Atom {
             Sexpr val = map.get(character);
             map.remove(character);
             map.put(character, val);
+            if (val != null) return val;
         }
         else {
             map.put(character, null);
+            
         }
         return this;
     }

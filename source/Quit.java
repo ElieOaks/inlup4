@@ -15,6 +15,10 @@ public class Quit extends Command {
         return true;
     }
 
+     public boolean isVars() {
+        return false;
+    }
+
     public double getValue() { //Fixme?
         return 0;
     }

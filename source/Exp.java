@@ -22,12 +22,7 @@ public class Exp extends Unary {
      * @return the evaluated Sexpr expression.
      */
     public Sexpr eval(HashMap<String,Sexpr> map) {
-        if (this.isConstant()) {
-            return new Constant(this.getValue());
-        }
-        else {
-            return new Exp(this.getArgument().eval(map));
-        }
+        return Symbolic.exp(this.getArgument().eval(map));
     }
 
     /**

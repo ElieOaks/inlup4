@@ -27,5 +27,9 @@ abstract class Unary extends Sexpr {
      public boolean isQuit() {
         return false;
     }
+
+    public boolean isVars() {
+        return false;
+    }
     
 }

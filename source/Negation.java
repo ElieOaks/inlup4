@@ -22,12 +22,7 @@ public class Negation extends Unary {
      * @return the most evaluated Sexpr expression.
      */
     public Sexpr eval(HashMap<String,Sexpr> map) {
-        if (this.isConstant()) {
-            return new Constant(this.getValue());
-        }
-        else {
-            return new Negation(this.getArgument().eval(map));
-        }
+        return Symbolic.negation(this.getArgument().eval(map));
     }
 
     /**

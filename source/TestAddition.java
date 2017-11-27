@@ -6,6 +6,7 @@ public class TestAddition {
     public Constant arg1 = new Constant(3);
     public Constant arg2 = new Constant(2);
     public Addition num = new Addition(arg1, arg2);
+    public double exact = 0.0001;
     public HashMap<String,Sexpr> map = new HashMap<String,Sexpr>();
 
     @Test
@@ -21,7 +22,7 @@ public class TestAddition {
 
     @Test
     public void testGetValue() {
-        assertEquals(num.getValue(), 5);
+        assertEquals(num.getValue(), 5, exact);
     }
 
     @Test

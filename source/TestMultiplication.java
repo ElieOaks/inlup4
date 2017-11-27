@@ -7,7 +7,7 @@ public class TestMultiplication {
     public Constant arg2 = new Constant(2);
     public Multiplication num = new Multiplication(arg1, arg2);
     public HashMap<String,Sexpr> map = new HashMap<String,Sexpr>();
-
+    public double exact = 0.0001;
     
     @Test
     public void testToString() {
@@ -22,7 +22,7 @@ public class TestMultiplication {
 
     @Test
     public void testGetValue() {
-        assertEquals(num.getValue(), 6);
+        assertEquals(num.getValue(), 6, exact);
     }
 
     @Test

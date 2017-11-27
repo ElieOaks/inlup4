@@ -17,6 +17,10 @@ abstract class Binary extends Sexpr{
     public boolean isQuit() {
         return false;
     }
+
+    public boolean isVars() {
+        return false;
+    }
     
     /**
        return the left Sexpr argument. 
