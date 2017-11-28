@@ -8,10 +8,10 @@ class ParserDriver{
 
         System.out.println("Welcome to the parser!");
         System.out.print("Please enter an expression: "); 
-
+        
         while(true) {
             try{
-                Parser p = new Parser();
+                Parser p =  new Parser();
                 System.out.print("\n? ");
                 Sexpr result = p.commands();
 
@@ -28,12 +28,10 @@ class ParserDriver{
                         System.out.println("There are no variables"); 
                     }
                 }
-                
                 else {
-                    System.out.println("result: " + result);
-                    Sexpr total = result.eval(map);
-                    System.out.println("evaluated to: " + total);
-                    System.out.println("Now in map: " +  map);
+                    
+            Sexpr total = result.eval(map);
+            System.out.println("evaluated to: " + total);
                 }
             }catch(SyntaxErrorException e){
                 System.out.print("Syntax Error: ");

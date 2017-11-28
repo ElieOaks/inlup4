@@ -7,7 +7,7 @@ public class Assignment extends Binary{
     String name = " = ";
 
     //Constructor
-    public Assignment(Sexpr left, Sexpr right) {
+    public Assignment(Sexpr left, Variable right) {
         super(left, right);
     }
 

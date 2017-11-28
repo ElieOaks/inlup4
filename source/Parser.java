@@ -17,6 +17,10 @@ class Parser{
         st.eolIsSignificant(true);
     }
 
+    /**
+     * checks if input is quit or vars, and returns theses Sexpr expression to be handled, or resturns a valid Sexpr expression.  
+     * @returns a Sexpr Quit, or Vars expression based on terminal input.  
+     */
     public Sexpr commands() throws IOException{
         st.nextToken();
         if (st.ttype == st.TT_WORD) {
@@ -59,15 +63,9 @@ class Parser{
                     expr = new Subtraction(expr, rightTerm);
                 }
 
-            }else {
-                Sexpr rightTerm = assignment();
+            }else{
 
-                if(rightTerm == null) {
-                    throw new SyntaxErrorException("Incorrect right side term");
-                }else{
-                    expr = new Assignment(expr, rightTerm);
-                }
-
+                expr = new Assignment(expr, assignmentVariable());
             }
             st.nextToken();
         }
@@ -81,15 +79,12 @@ class Parser{
      * @return a Sexpr expression. If token is a single char, then returns an instance of Variable.
      * Throws exception if the next token is not assigned to a variable.
      */
-    private Sexpr assignment() throws IOException {  //how to get left value, read 3 tokens?
-        Sexpr rightTerm;
+    private Variable assignmentVariable() throws IOException {
         st.nextToken();
-        if(st.ttype == st.TT_WORD) {
+        if(st.ttype == st.TT_WORD && st.sval.length() == 1) {
             return new Variable(st.sval);
         }
-        else {
-            throw new SyntaxErrorException("Incorrect assignment, expected variable");
-        }
+        throw new SyntaxErrorException("Incorrect assignment, expected variable");
     }
 
 
@@ -101,33 +96,25 @@ class Parser{
     private Sexpr termMultOrDiv() throws IOException{ //needs a better name
         Sexpr expr = factor();
         if(st.nextToken() == '*') {
-            st.pushBack();
-            while (st.nextToken() == '*'){
-                Sexpr factorRight = termMultOrDiv();
+            Sexpr factorRight = termMultOrDiv();
 
-                if(factorRight == null) { 
-                    throw new SyntaxErrorException("Incorrect right side expression");
-                }else{
-                    expr = new Multiplication(expr, factorRight);
-                }
-
+            if(factorRight == null) { 
+                throw new SyntaxErrorException("Incorrect right side expression");
+            }else{
+                expr = new Multiplication(expr, factorRight);
             }
-            st.pushBack();
-        } 
+        }        
+        st.pushBack();
         if(st.nextToken() == '/') {
-            st.pushBack();
-            while (st.nextToken() == '/'){
-                Sexpr factorRight = termMultOrDiv();
+            Sexpr factorRight = termMultOrDiv();
 
-                if(factorRight == null) {
-                    throw new SyntaxErrorException("Incorrect right side expression");
-                }else{
-                    expr = new Division(expr, factorRight);
-                }
-
-            }
-            st.pushBack();
-        } 
+            if(factorRight == null) {
+                throw new SyntaxErrorException("Incorrect right side expression");
+            }else{
+                expr = new Division(expr, factorRight);
+            }   
+        }
+        st.pushBack();
         return expr;
     }
 
@@ -156,18 +143,27 @@ class Parser{
      * Throws exception if it is neither a word of a number.
      */
     private Sexpr number() throws IOException{
-
+        
         if(st.nextToken() == st.TT_WORD) {
             st.pushBack();
             return variableOrUnary();
         }
         st.pushBack();
-
+        if (st.nextToken() == '-') {
+            if (st.nextToken() == '(') {
+                st.pushBack();
+                Sexpr argument = checkParanthesees();
+                return new Negation(argument);
+            }
+            st.pushBack();
+            return new Negation(expression());
+        }
+        st.pushBack();
         if(st.nextToken() != st.TT_NUMBER){
-            throw new SyntaxErrorException("Expected number");
+            throw new SyntaxErrorException("Not a valid expression");
         }
         return new Constant(st.nval);
-
+       
     }
 
     /**
@@ -197,38 +193,27 @@ class Parser{
         }
         else if(st.sval.length() == 3) {
             switch(st.sval) {
-                case "cos":
-                    Sexpr cosArgument = checkParanthesees();
-                    return new Cos(cosArgument);
-                case "sin":
-                    Sexpr sinArgument = checkParanthesees();
-                    return new Sin(sinArgument);
-                case "exp":
-                    Sexpr expArgument = checkParanthesees();
-                    return new Exp(expArgument);
-                case "log":
-                    Sexpr logArgument = checkParanthesees();
-                    return new Log(logArgument);
-                default:
-                    throw new SyntaxErrorException("Unknown Expression");
+            case "cos":
+                Sexpr cosArgument = checkParanthesees();
+                return new Cos(cosArgument);
+            case "sin":
+                Sexpr sinArgument = checkParanthesees();
+                return new Sin(sinArgument);
+            case "exp":
+                Sexpr expArgument = checkParanthesees();
+                return new Exp(expArgument);
+            case "log":
+                Sexpr logArgument = checkParanthesees();
+                return new Log(logArgument);
+            default:
+                throw new SyntaxErrorException("Unknown Expression");
             }
 
-        } 
-        else
-            if (st.sval == "-") {
-                return new Negation(expression());
-            }
-        return new Variable(st.sval);
-    }
-
-
-
-    public class SyntaxErrorException extends RuntimeException{
-        public SyntaxErrorException(){
-            super();
         }
-        public SyntaxErrorException(String msg){
-            super(msg);
+        if (st.sval.length() == 1) {
+            return new Variable(st.sval);
         }
+        throw new SyntaxErrorException("Expected a single character variable!");
+        
     }
 }
