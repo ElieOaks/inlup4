@@ -12,7 +12,7 @@ class ParserDriver{
         
         while(true) {
             try{
-                Parser p =  new Parser();
+                Parser p =  new Parser(System.in);
                 shouldBeEval = true;
                 System.out.print("\n? ");
                 Sexpr result = p.commands();
