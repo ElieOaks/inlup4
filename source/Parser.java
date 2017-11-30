@@ -25,6 +25,8 @@ class Parser{
         st.nextToken();
         if (st.ttype == st.TT_WORD) {
             switch(st.sval) {
+            case "ans":
+                return new Variable("ans");
                 case "vars":
                     return new Vars();
                 case "quit":
@@ -44,7 +46,7 @@ class Parser{
     private Sexpr expression() throws IOException{
         Sexpr expr = termMultOrDiv();
         st.nextToken();
-        while (st.ttype == '+' || st.ttype == '-' || st.ttype == '=') {
+        if (st.ttype == '+' || st.ttype == '-' || st.ttype == '=') {
             if(st.ttype == '+'){
                 Sexpr rightTerm = termMultOrDiv();
 
@@ -95,7 +97,8 @@ class Parser{
      */
     private Sexpr termMultOrDiv() throws IOException{ //needs a better name
         Sexpr expr = factor();
-        if(st.nextToken() == '*') {
+        st.nextToken();
+        if(st.ttype == '*') {
             Sexpr factorRight = termMultOrDiv();
 
             if(factorRight == null) { 
@@ -103,9 +106,8 @@ class Parser{
             }else{
                 expr = new Multiplication(expr, factorRight);
             }
-        }        
-        st.pushBack();
-        if(st.nextToken() == '/') {
+        }
+        if(st.ttype == '/') {
             Sexpr factorRight = termMultOrDiv();
 
             if(factorRight == null) {
