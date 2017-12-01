@@ -10,8 +10,8 @@ class Parser{
      * '-' is read as an ordinary char.
      * EOL is a token
      */
-    public Parser(InputStream testStream){
-        st = new StreamTokenizer(testStream);
+    public Parser(){
+        st = new StreamTokenizer(System.in);
         st.ordinaryChar('-');
         st.ordinaryChar('/');
         st.eolIsSignificant(true);
@@ -27,10 +27,10 @@ class Parser{
             switch(st.sval) {
             case "ans":
                 return new Variable("ans");
-                case "vars":
-                    return new Vars();
-                case "quit":
-                    return new Quit();
+            case "vars":
+                return new Vars();
+            case "quit":
+                return new Quit();
             }
 
         }
