@@ -21,6 +21,7 @@ class Parser{
      * checks if input is quit or vars, and returns theses Sexpr expression to be handled, or resturns a valid Sexpr expression.  
      * @returns a Sexpr Quit, or Vars expression based on terminal input.  
      */
+	
     public Sexpr commands() throws IOException{
         st.nextToken();
         if (st.ttype == st.TT_WORD) {
@@ -37,6 +38,7 @@ class Parser{
         st.pushBack();
         return expression();
     }
+	
 
     /**
      * Checks if the next token is a '+'/'-'/'='.
@@ -218,4 +220,8 @@ class Parser{
         throw new SyntaxErrorException("Expected a single character variable!");
         
     }
+
+	public static Sexpr parse(String input) throws IOException { //helper function to make tests less painful and repetitive to write.
+    return (new Parser(new TestInputStream(input))).commands();
+}
 }
