@@ -3,7 +3,7 @@ public class Sin extends Unary {
 
     //Attributes
     String sign;
-    int prio = 4;
+    int prio = 3;
 
     //Constructor
     public Sin(Sexpr argument) {

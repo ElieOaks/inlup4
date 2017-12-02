@@ -7,10 +7,10 @@ public class TestInputStream extends InputStream {
 	String testString;
 	int testIndex;
 
-	public int read() {	
-		return this.testString.charAt(this.testIndex);
-		this.testIndex++;
-	}
+    public int read() {	
+        this.testIndex++;
+        return this.testString.charAt(this.testIndex);
+            }
 
 	public void newString(String test) {
 		this.testString = test;
