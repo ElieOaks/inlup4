@@ -42,10 +42,22 @@ public class ParserTest {
 
 	@Test
 	public void divisionConstantTest {
-		Sexpr actual = Parse.parse("7 / 3");
+		Sexpr actual = Parser.parse("7 / 3");
 		Sexpr expected = new Division(new Constant("7"), new Constant("3"));
 		Assert.assertEquals(expected.toString(), actual.toString(), "7 / 3");
 	}
+
+	@Test
+	public void parenthesisTest1 {
+		Sexpr actual = Parser.parse("((2 - 4) * 3)");
+		Sexpr expected = new Multiplication(new Subtraction(new Constant("2"), new Constant("4")), new Constant("3"));
+		Assert.assertEquals(expected.toString(), actual.toString(), "((2 - 4) * 3)");
+	}
+
+
+	@Test
+	public void parenthesisTest2 {
+		Sexpr actual = Parser.parse("Log
 	
 
 
@@ -56,14 +68,12 @@ public class ParserTest {
 		Assert.assertEquals(expected.toString(), actual.toString(), "sin(sin(7/2))");
 	}
 	
-	/*
-	@Test
-	public unaryTest2 {
-		Sexpr actual = Parser.parse("")
-		Sexpr expected = ??
+/*	@Test
+	public void unaryTest2 {
+		Sexpr actual = Parser.parse
+
+
 
 	}
-
-	*/
-
-	@Test	
+*/
+}	
