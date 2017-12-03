@@ -1,4 +1,5 @@
 import org.junit.Test;
+
 import static org.junit.Assert.*;
 import java.util.*;
 import java.io.IOException;
@@ -51,7 +52,7 @@ public class TestParser {
 	@Test
 	public void negationTest() throws IOException {
 		Sexpr actual = Parser.parse("---3");
-		Sexpr expected = new Negation("3");
+		Sexpr expected = new Negation(new Constant(3));
 		assertEquals(expected.toString(), actual.toString(), "---3");
 	}
 
