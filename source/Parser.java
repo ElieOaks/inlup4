@@ -10,8 +10,8 @@ class Parser{
      * '-' is read as an ordinary char.
      * EOL is a token
      */
-    public Parser(){
-        st = new StreamTokenizer(System.in);
+    public Parser(InputStream stream){
+        st = new StreamTokenizer(stream); //change this to take arg as inputstream
         st.ordinaryChar('-');
         st.ordinaryChar('/');
         st.eolIsSignificant(true);
@@ -166,8 +166,7 @@ class Parser{
         if(st.nextToken() != st.TT_NUMBER){
             throw new SyntaxErrorException("Not a valid expression");
         }
-        return new Constant(st.nval);
-       
+        return new Constant(st.nval);      
     }
 
     /**
