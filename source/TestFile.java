@@ -5,7 +5,7 @@ import junit.framework.*;
 
 public class TestFile {
     public static void main(String[] args) {
-        Result result = JUnitCore.runClasses(TestAddition.class, TestSubtraction.class, TestDivision.class, TestMultiplication.class, TestAssignment.class, TestCos.class, TestSin.class, TestExp.class, TestLog.class);
+        Result result = JUnitCore.runClasses(TestAddition.class, TestSubtraction.class, TestDivision.class, TestMultiplication.class, TestAssignment.class, TestCos.class, TestSin.class, TestExp.class, TestLog.class, TestParser.class);
 
         for (Failure failure : result.getFailures())
             System.out.println(failure.toString());
