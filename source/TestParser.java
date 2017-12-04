@@ -1,4 +1,4 @@
-import org.junit.Test;
+ import org.junit.Test;
 
 import static org.junit.Assert.*;
 import java.util.*;
@@ -33,7 +33,6 @@ public class TestParser {
 	public void subtractConstantTest() throws IOException{
 		Sexpr actual = Parser.parse(" 1-2\n");
 		Sexpr expected = new Subtraction(new Constant(1), new Constant(2));
-                System.out.println(actual.toString());
 		assertEquals(expected.toString(), actual.toString());
 	}
 
@@ -65,17 +64,17 @@ public class TestParser {
 			fail();
 		}
 		catch (SyntaxErrorException e) {
-			System.err.println("NO, BAD DOG");
+			System.err.println("Caught exception wrongAssignment: true");
 		}
 	}
 
 
 	@Test
 	public void parenthesisTest1() throws IOException{
-		Sexpr actual = Parser.parse("(2 - 4) * 3 \n");
+		Sexpr actual = Parser.parse("((2 - 4) * 3)\n");
                 Sexpr subtr = new Subtraction(new Constant(2), new Constant(4));
 		Sexpr expected = new Multiplication(subtr, new Constant(3));
-		assertEquals(expected.toString(), actual.toString(), "(2.0 - 4.0) * 3.0");
+		assertEquals(expected.toString(), "(2.0 - 4.0) * 3.0");
 	}
 
 	@Test
@@ -85,12 +84,12 @@ public class TestParser {
 			fail();
 		}
 		catch (SyntaxErrorException e) {
-			System.err.println("Caught Parenthesis error");
+			System.err.println("Caught Parenthesis error: true");
 		}
 	}
 
-
 	@Test
+
 	public void unaryTest1() throws IOException{
 		Sexpr actual = Parser.parse(" sin(sin(7/2))\n");
 		Sexpr expected = new Sin(new Sin(new Division(new Constant(7),new Constant(2))));
@@ -104,7 +103,7 @@ public class TestParser {
 			fail();
 		}
 		catch (SyntaxErrorException e) {
-			System.err.println("Caught exception");
+			System.err.println("Caught exception: true");
 		}
 	}
 

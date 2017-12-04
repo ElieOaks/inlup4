@@ -13,7 +13,7 @@ public class TestSubtraction {
     @Test
     public void testToString() {
         String adi = num.toString();
-        assertEquals("(3.0 - 2.0)", adi);
+        assertEquals("3.0 - 2.0", adi);
     }
 
     @Test

@@ -36,10 +36,6 @@ public class Subtraction extends Binary{
     public Sexpr eval(HashMap<String,Sexpr> map) {
         return Symbolic.subtraction(this.getLeft().eval(map), this.getRight().eval(map));
     }
-
-    public String toString() {
-        return "(" + this.getLeft().toString() + " - " + this.getRight().toString() + ")";
-    }
     
 }
 

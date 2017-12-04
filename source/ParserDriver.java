@@ -34,6 +34,7 @@ class ParserDriver{
                     
                     Sexpr total = result.eval(map);
                     System.out.println("evaluated to: " + total);
+		    System.out.println("expressoin is: " + result);
                     (new Assignment(total, new Variable("ans"))).eval(map);
                 }
             }catch(SyntaxErrorException e){
