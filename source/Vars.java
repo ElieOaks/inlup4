@@ -1,3 +1,4 @@
+package mathematix;
 import java.util.*;
 public class Vars extends Command {
 
