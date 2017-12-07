@@ -1,4 +1,7 @@
+
+package mathematix;
 abstract class Atom extends Sexpr {
+
 
     public boolean isQuit() {
         return false;

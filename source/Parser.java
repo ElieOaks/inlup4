@@ -1,3 +1,5 @@
+
+package mathematix;
 import java.io.*;
 
 class Parser{

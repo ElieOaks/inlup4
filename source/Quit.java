@@ -1,3 +1,5 @@
+
+package mathematix;
 import java.util.*;
 public class Quit extends Command {
 

@@ -1,3 +1,5 @@
+
+package mathematix;
 public class Symbolic{
     /**
      * Checks if both args are Constants. 
