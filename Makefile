@@ -14,6 +14,7 @@ test: all
 clean:
 	rm -f *~
 	rm -f *#
-	rm -f ./source/*#
-	rm -f ./source/*~
+	rm -f ./source1/*#
+	rm -f ./source1/*~
+
 	rm -f ./bin/*.class

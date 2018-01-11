@@ -1,9 +1,8 @@
-import mathematix.*;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import java.util.*;
 
-public class TestExp {
+public class TestExp implements TestInterface{
     public Constant arg = new Constant(3);
     public Exp num = new Exp(arg);
     public double value = Math.exp(3);

@@ -1,9 +1,8 @@
-import mathematix.*;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import java.util.*;
 
-public class TestAssignment{
+public class TestAssignment implements TestInterface{
     public Constant arg1 = new Constant(3);
     public Variable arg2 = new Variable("b");
     public Assignment num = new Assignment(arg1, arg2);

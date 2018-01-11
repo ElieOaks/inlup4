@@ -1,5 +1,4 @@
 
-package mathematix;
 import java.util.*;
 public class Exp extends Unary {
     int prio = 3;

@@ -1,9 +1,8 @@
-import mathematix.*;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import java.util.*;
 
-public class TestMultiplication {
+public class TestMultiplication implements TestInterface{
     public Constant arg1 = new Constant(3);
     public Constant arg2 = new Constant(2);
     public Multiplication num = new Multiplication(arg1, arg2);

@@ -1,5 +1,5 @@
 
-package mathematix;
+
 import java.util.*;
 public class Log extends Unary {
 

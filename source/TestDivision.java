@@ -1,9 +1,8 @@
-import mathematix.*;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import java.util.*;
 
-public class TestDivision {
+public class TestDivision implements TestInterface{
     public Constant arg1 = new Constant(6);
     public Constant arg2 = new Constant(2);
     public Division num = new Division(arg1, arg2);

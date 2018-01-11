@@ -1,4 +1,3 @@
-package mathematix;
 import java.util.*;
 public class Variable extends Atom {
 

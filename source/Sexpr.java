@@ -1,9 +1,6 @@
-
-package mathematix;
-
 import java.util.*;
 
-abstract class Sexpr {
+public abstract class Sexpr {
     //abstract String getName();
     abstract boolean isQuit();
     abstract boolean isVars();

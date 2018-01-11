@@ -1,9 +1,8 @@
-import mathematix.*;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import java.util.*;
 
-public class TestLog {
+public class TestLog implements TestInterface{
     public Constant arg = new Constant(3);
     public Log num = new Log(arg);
     public double value = Math.log(3);

@@ -1,9 +1,8 @@
-import mathematix.*;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import java.util.*;
 
-public class TestSubtraction {
+public class TestSubtraction implements TestInterface{
     public Constant arg1 = new Constant(3);
     public Constant arg2 = new Constant(2);
     public Subtraction num = new Subtraction(arg1, arg2);

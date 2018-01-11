@@ -1,8 +1,6 @@
-
-package mathematix;
 import java.io.*;
 
-class Parser{
+public class Parser{
     StreamTokenizer st;
 
     /**

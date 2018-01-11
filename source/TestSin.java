@@ -1,9 +1,8 @@
-import mathematix.*;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import java.util.*;
 
-public class TestSin {
+public class TestSin implements TestInterface{
     public Constant arg = new Constant(3);
     public Sin num = new Sin(arg);
     public double value = Math.sin(3);

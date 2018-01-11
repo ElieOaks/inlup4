@@ -1,5 +1,5 @@
 
-package mathematix;
+
 abstract class Atom extends Sexpr {
 
 

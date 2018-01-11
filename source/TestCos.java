@@ -1,9 +1,8 @@
-import mathematix.*;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import java.util.*;
 
-public class TestCos {
+public class TestCos implements TestInterface{
     public Constant arg = new Constant(3);
     public Cos num = new Cos(arg);
     public double value = Math.cos(3);

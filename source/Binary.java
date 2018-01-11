@@ -1,5 +1,5 @@
 
-package mathematix;
+
 abstract class Binary extends Sexpr{
     //Attributes
     private Sexpr left;

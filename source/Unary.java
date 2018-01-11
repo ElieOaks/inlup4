@@ -1,5 +1,3 @@
-
-package mathematix;
 abstract class Unary extends Sexpr {
     private Sexpr argument;
     private String sign;

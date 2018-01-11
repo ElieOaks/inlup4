@@ -1,5 +1,5 @@
 
-package mathematix;
+
 import java.util.*;
 
 public class Cos extends Unary {

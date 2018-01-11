@@ -1,6 +1,5 @@
-package mathematix;
+
 import java.util.*;
-import java.math.*;
 
 public class Constant extends Atom {
 

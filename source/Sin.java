@@ -1,5 +1,3 @@
-
-package mathematix;
 import java.util.*;
 public class Sin extends Unary {
 
